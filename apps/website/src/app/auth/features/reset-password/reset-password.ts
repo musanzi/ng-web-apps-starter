@@ -1,9 +1,6 @@
-import { Location } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
 import { form, FormField, minLength, required, submit, validate } from '@angular/forms/signals';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCard } from '@angular/material/card';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -13,32 +10,22 @@ import { AuthStore } from '../../data-access';
 @Component({
   selector: 'auth-reset-password',
   templateUrl: './reset-password.html',
-  imports: [
-    RouterLink,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    MatCheckboxModule,
-    FormField,
-    MatCard,
-  ],
+  imports: [RouterLink, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, FormField]
 })
 export class AuthResetPassword {
   private route = inject(ActivatedRoute);
-  private location = inject(Location);
   protected authStore = inject(AuthStore);
   protected token = signal(this.route.snapshot.queryParamMap.get('token') ?? '');
   protected hasToken = computed(() => this.token().trim().length > 0);
   protected resetPasswordFormModel = signal({
     password: '',
-    confirmPassword: '',
+    confirmPassword: ''
   });
   protected resetPasswordForm = form(this.resetPasswordFormModel, (form) => {
     required(form.password, { message: 'Vous devez saisir un mot de passe' });
     minLength(form.password, 6, { message: 'Le mot de passe doit contenir au moins 6 caractères' });
     required(form.confirmPassword, {
-      message: 'Vous devez confirmer votre mot de passe',
+      message: 'Vous devez confirmer votre mot de passe'
     });
     validate(form.confirmPassword, (ctx) => {
       const password = ctx.valueOf(form.password);
@@ -49,7 +36,7 @@ export class AuthResetPassword {
       if (password !== confirmPassword) {
         return {
           kind: 'mismatch',
-          message: 'Les mots de passe ne correspondent pas',
+          message: 'Les mots de passe ne correspondent pas'
         };
       }
 
@@ -67,9 +54,5 @@ export class AuthResetPassword {
         token: this.token()
       });
     });
-  }
-
-  goBack() {
-    this.location.back();
   }
 }

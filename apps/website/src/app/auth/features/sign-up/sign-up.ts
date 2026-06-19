@@ -1,4 +1,3 @@
-import { Location } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { email, form, FormField, required, submit, validate } from '@angular/forms/signals';
 import { MatButtonModule } from '@angular/material/button';
@@ -15,7 +14,6 @@ import { AuthStore } from '../../data-access';
 })
 export class AuthSignUp {
   protected authStore = inject(AuthStore);
-  private location = inject(Location);
   protected signUpFormModel = signal({
     name: '',
     email: '',
@@ -45,9 +43,5 @@ export class AuthSignUp {
       const { email, name, password } = this.signUpFormModel();
       this.authStore.signUp({ email, name, password });
     });
-  }
-
-  goBack() {
-    this.location.back();
   }
 }

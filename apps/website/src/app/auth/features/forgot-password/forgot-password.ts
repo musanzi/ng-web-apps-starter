@@ -1,9 +1,6 @@
-import { Location } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { email, form, FormField, required, submit } from '@angular/forms/signals';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCard } from '@angular/material/card';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -12,10 +9,9 @@ import { AuthStore } from '../../data-access';
 @Component({
   selector: 'auth-forgot-password',
   templateUrl: './forgot-password.html',
-  imports: [MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, MatCheckboxModule, FormField, MatCard]
+  imports: [MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, FormField]
 })
 export class AuthForgotPassword {
-  private location = inject(Location);
   protected authStore = inject(AuthStore);
   protected forgotPasswordFormModel = signal({
     email: ''
@@ -30,9 +26,5 @@ export class AuthForgotPassword {
     submit(this.forgotPasswordForm, async () => {
       this.authStore.forgotPassword(this.forgotPasswordFormModel());
     });
-  }
-
-  goBack() {
-    this.location.back();
   }
 }
