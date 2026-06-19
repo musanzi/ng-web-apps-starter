@@ -11,20 +11,7 @@
 
   @if (authStore.error(); as error) {
   <div class="mt-3 text-sm text-red-600 dark:text-red-400">{{ error }}</div>
-  } }
-
-  <mat-button-toggle-group
-    class="mt-4"
-    aria-label="Thème"
-    [value]="theming.scheme()"
-    (change)="setScheme($event.value)"
-  >
-    <mat-button-toggle value="light">Clair</mat-button-toggle>
-    <mat-button-toggle value="system">Système</mat-button-toggle>
-    <mat-button-toggle value="dark">Sombre</mat-button-toggle>
-  </mat-button-toggle-group>
-
-  @if (authStore.user()) {
+  } } @if (authStore.user()) {
   <div class="mt-4 flex items-center gap-3">
     <a matButton="outlined" routerLink="/auth/profile"> Profil </a>
 

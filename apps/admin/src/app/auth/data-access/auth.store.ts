@@ -81,9 +81,7 @@ export const AuthStore = signalStore(
         tap(() => patchState(store, { isVerifying: true, error: null })),
         exhaustMap(() =>
           _authService.getProfile().pipe(
-            tap((user) => {
-              patchState(store, { user });
-            }),
+            tap((user) => patchState(store, { user })),
             catchError(() => {
               patchState(store, { user: null });
               return of(null);

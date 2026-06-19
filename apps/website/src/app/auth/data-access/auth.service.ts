@@ -15,41 +15,40 @@ import {
 @Service()
 export class AuthService {
   private http = inject(HttpClient);
-  private apiUrl = environment.apiUrl;
 
   signUp(dto: ISignUpPayload): Observable<IUser> {
-    return this.http.post<IUser>(this.apiUrl + '/auth/signup', dto);
+    return this.http.post<IUser>('/auth/signup', dto);
   }
 
   signIn(dto: ISignInPayload): Observable<IUser> {
-    return this.http.post<IUser>(this.apiUrl + '/auth/signin', dto);
+    return this.http.post<IUser>('/auth/signin', dto);
   }
 
   signOut(): Observable<void> {
-    return this.http.post<void>(this.apiUrl + '/auth/signout', {});
+    return this.http.post<void>('/auth/signout', {});
   }
 
   forgotPassword(dto: IForgotPasswordPayload): Observable<void> {
-    return this.http.post<void>(this.apiUrl + '/auth/password/forgot', dto);
+    return this.http.post<void>('/auth/password/forgot', dto);
   }
 
   resetPassword(dto: IResetPasswordPayload): Observable<void> {
-    return this.http.post<void>(this.apiUrl + '/auth/password/reset', dto);
+    return this.http.post<void>('/auth/password/reset', dto);
   }
 
   updateProfile(dto: IUpdateProfilePayload): Observable<IUser> {
-    return this.http.patch<IUser>(this.apiUrl + '/auth/me', dto);
+    return this.http.patch<IUser>('/auth/me', dto);
   }
 
   updatePassword(dto: IUpdatePasswordPayload): Observable<void> {
-    return this.http.patch<void>(this.apiUrl + '/auth/password', dto);
+    return this.http.patch<void>('/auth/password', dto);
   }
 
   getGoogleSignInUrl(): string {
-    return this.apiUrl + '/auth/signin/google';
+    return environment + '/auth/signin/google';
   }
 
   getProfile(): Observable<IUser> {
-    return this.http.get<IUser>(this.apiUrl + '/auth/me');
+    return this.http.get<IUser>('/auth/me');
   }
 }
