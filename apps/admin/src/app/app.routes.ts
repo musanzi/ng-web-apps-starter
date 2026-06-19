@@ -4,6 +4,7 @@ import { authGuard } from './auth/data-access';
 export const routes: Route[] = [
   {
     path: 'locked',
+    title: 'Locked',
     loadComponent: () => import('./locked/locked').then((c) => c.Locked)
   },
   {

@@ -1,4 +1,3 @@
-export * from './auth-profile.interface';
 export * from './auth-state.interface';
 export * from './forgot-password.interface';
 export * from './reset-password.interface';

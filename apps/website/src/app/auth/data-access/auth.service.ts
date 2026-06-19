@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
+import { IUser } from '@libs/utils';
+import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import {
   IForgotPasswordPayload,
-  IAuthProfile,
   IResetPasswordPayload,
   ISignInPayload,
   ISignUpPayload,
@@ -16,31 +17,31 @@ export class AuthService {
   private http = inject(HttpClient);
   private apiUrl = environment.apiUrl;
 
-  signUp(dto: ISignUpPayload) {
-    return this.http.post<IAuthProfile>(this.apiUrl + '/auth/signup', dto);
+  signUp(dto: ISignUpPayload): Observable<IUser> {
+    return this.http.post<IUser>(this.apiUrl + '/auth/signup', dto);
   }
 
-  signIn(dto: ISignInPayload) {
-    return this.http.post<IAuthProfile>(this.apiUrl + '/auth/signin', dto);
+  signIn(dto: ISignInPayload): Observable<IUser> {
+    return this.http.post<IUser>(this.apiUrl + '/auth/signin', dto);
   }
 
-  signOut() {
+  signOut(): Observable<void> {
     return this.http.post<void>(this.apiUrl + '/auth/signout', {});
   }
 
-  forgotPassword(dto: IForgotPasswordPayload) {
+  forgotPassword(dto: IForgotPasswordPayload): Observable<void> {
     return this.http.post<void>(this.apiUrl + '/auth/password/forgot', dto);
   }
 
-  resetPassword(dto: IResetPasswordPayload) {
+  resetPassword(dto: IResetPasswordPayload): Observable<void> {
     return this.http.post<void>(this.apiUrl + '/auth/password/reset', dto);
   }
 
-  updateProfile(dto: IUpdateProfilePayload) {
-    return this.http.patch<IAuthProfile>(this.apiUrl + '/auth/me', dto);
+  updateProfile(dto: IUpdateProfilePayload): Observable<IUser> {
+    return this.http.patch<IUser>(this.apiUrl + '/auth/me', dto);
   }
 
-  updatePassword(dto: IUpdatePasswordPayload) {
+  updatePassword(dto: IUpdatePasswordPayload): Observable<void> {
     return this.http.patch<void>(this.apiUrl + '/auth/password', dto);
   }
 
@@ -48,7 +49,7 @@ export class AuthService {
     return this.apiUrl + '/auth/signin/google';
   }
 
-  getProfile() {
-    return this.http.get<IAuthProfile>(this.apiUrl + '/auth/me');
+  getProfile(): Observable<IUser> {
+    return this.http.get<IUser>(this.apiUrl + '/auth/me');
   }
 }

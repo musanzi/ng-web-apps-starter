@@ -1,7 +1,7 @@
-import { IAuthProfile } from './auth-profile.interface';
+import { IUser } from '@libs/utils';
 
 export interface IAuthState {
-  user: IAuthProfile | null;
+  user: IUser | null;
   isVerifying: boolean;
   isLoading: boolean;
   error: string | null;

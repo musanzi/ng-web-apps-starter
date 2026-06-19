@@ -1,12 +1,11 @@
 import { computed, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { getApiErrorMessage } from '@libs/utils';
+import { getApiErrorMessage, IUser } from '@libs/utils';
 import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { catchError, exhaustMap, finalize, of, pipe, tap } from 'rxjs';
 import {
   IForgotPasswordPayload,
-  IAuthProfile,
   IAuthState,
   IResetPasswordPayload,
   ISignInPayload,
@@ -176,7 +175,7 @@ export const AuthStore = signalStore(
     clearMessages(): void {
       patchState(store, { error: null, success: null });
     },
-    setUser(user: IAuthProfile | null): void {
+    setUser(user: IUser | null): void {
       patchState(store, { user });
     }
   }))

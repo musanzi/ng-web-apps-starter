@@ -1,10 +1,10 @@
 import { computed, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { getApiErrorMessage } from '@libs/utils';
+import { getApiErrorMessage, IUser } from '@libs/utils';
 import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { catchError, exhaustMap, finalize, of, pipe, tap } from 'rxjs';
-import { IAuthProfile, IAuthState, IUpdatePasswordPayload, IUpdateProfilePayload } from '../interfaces';
+import { IAuthState, IUpdatePasswordPayload, IUpdateProfilePayload } from '../interfaces';
 import { AuthService } from './auth.service';
 
 const initialState: IAuthState = {
@@ -19,9 +19,7 @@ export const AuthStore = signalStore(
   { providedIn: 'root' },
   withState(initialState),
   withComputed(({ user }) => ({
-    hasRights: computed(() => {
-      return user()?.roles?.includes('admin');
-    })
+    hasRights: computed(() => user()?.roles?.includes('admin'))
   })),
   withMethods((store, _authService = inject(AuthService), router = inject(Router)) => ({
     updateProfile: rxMethod<IUpdateProfilePayload>(
@@ -83,7 +81,9 @@ export const AuthStore = signalStore(
         tap(() => patchState(store, { isVerifying: true, error: null })),
         exhaustMap(() =>
           _authService.getProfile().pipe(
-            tap((user) => patchState(store, { user })),
+            tap((user) => {
+              patchState(store, { user });
+            }),
             catchError(() => {
               patchState(store, { user: null });
               return of(null);
@@ -96,7 +96,7 @@ export const AuthStore = signalStore(
     clearMessages(): void {
       patchState(store, { error: null, success: null });
     },
-    setUser(user: IAuthProfile | null): void {
+    setUser(user: IUser | null): void {
       patchState(store, { user });
     }
   }))

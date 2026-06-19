@@ -1,26 +1,28 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
+import { IUser } from '@libs/utils';
+import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { IAuthProfile, IUpdatePasswordPayload, IUpdateProfilePayload } from '../interfaces';
+import { IUpdatePasswordPayload, IUpdateProfilePayload } from '../interfaces';
 
 @Service()
 export class AuthService {
   private http = inject(HttpClient);
   private apiUrl = environment.apiUrl;
 
-  signOut() {
+  signOut(): Observable<void> {
     return this.http.post<void>(this.apiUrl + '/auth/signout', {});
   }
 
-  updateProfile(dto: IUpdateProfilePayload) {
-    return this.http.patch<IAuthProfile>(this.apiUrl + '/auth/me', dto);
+  updateProfile(dto: IUpdateProfilePayload): Observable<IUser> {
+    return this.http.patch<IUser>(this.apiUrl + '/auth/me', dto);
   }
 
-  updatePassword(dto: IUpdatePasswordPayload) {
+  updatePassword(dto: IUpdatePasswordPayload): Observable<void> {
     return this.http.patch<void>(this.apiUrl + '/auth/password', dto);
   }
 
-  getProfile() {
-    return this.http.get<IAuthProfile>(this.apiUrl + '/auth/me');
+  getProfile(): Observable<IUser> {
+    return this.http.get<IUser>(this.apiUrl + '/auth/me');
   }
 }
