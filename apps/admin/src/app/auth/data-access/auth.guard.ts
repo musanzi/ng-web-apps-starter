@@ -6,8 +6,10 @@ export const authGuard: CanActivateFn = () => {
   const authStore = inject(AuthStore);
   const router = inject(Router);
 
-  if (!authStore.isVerifying() && !authStore.user()) {
-    return router.navigate(['/auth/sign-in']);
+  const hasRights = authStore.hasRights();
+
+  if (!hasRights) {
+    return router.navigate(['/locked']);
   }
 
   return true;

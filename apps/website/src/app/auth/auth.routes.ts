@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './data-access';
 
 export const authRoutes: Routes = [
   {
@@ -40,7 +41,8 @@ export const authRoutes: Routes = [
       {
         path: 'profile',
         title: 'Profile',
-        loadComponent: () => import('./layout/profile-layout/layout').then((c) => c.ProfileLayout),
+        canActivate: [authGuard],
+        loadComponent: () => import('./features/profile/layout/layout').then((c) => c.ProfileLayout),
         children: [
           {
             path: '',
