@@ -21,18 +21,18 @@ import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/rou
   ],
   templateUrl: './layout.html'
 })
-export class SettingsLayout {
+export class ProfileLayout {
   protected router = inject(Router);
   protected links = [
     {
       id: 'account',
       label: 'Compte',
-      route: '/profile/account'
+      route: '/auth/profile/account'
     },
     {
       id: 'security',
       label: 'Sécurité',
-      route: '/profile/security'
+      route: '/auth/profile/security'
     }
   ];
 }

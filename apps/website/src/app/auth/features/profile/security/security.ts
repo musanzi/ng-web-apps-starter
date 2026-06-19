@@ -5,16 +5,15 @@ import { MatDivider } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { ProfileStore } from '../../data-access';
+import { AuthStore } from '@website/app/auth/data-access';
 
 @Component({
   selector: 'security-settings',
-  providers: [ProfileStore],
   imports: [MatButton, MatDivider, MatIcon, MatFormFieldModule, MatInputModule, FormField],
   templateUrl: './security.html'
 })
-export default class SecuritySettings {
-  protected profileStore = inject(ProfileStore);
+export class PorfilSecurity {
+  protected readonly authStore = inject(AuthStore);
 
   protected securitySettingsModel = signal({
     password: '',
@@ -37,10 +36,10 @@ export default class SecuritySettings {
   });
 
   constructor() {
-    this.profileStore.clearMessages();
+    this.authStore.clearMessages();
 
     effect(() => {
-      if (this.profileStore.success() === 'Mot de passe mis à jour.') {
+      if (this.authStore.success() === 'Mot de passe mis à jour.') {
         this.securitySettingsModel.set({
           password: '',
           confirmPassword: ''
@@ -51,10 +50,10 @@ export default class SecuritySettings {
 
   protected save(event: Event): void {
     event.preventDefault();
-    this.profileStore.clearMessages();
+    this.authStore.clearMessages();
 
     submit(this.securitySettingsForm, async () => {
-      this.profileStore.updatePassword({ password: this.securitySettingsModel().password });
+      this.authStore.updatePassword({ password: this.securitySettingsModel().password });
     });
   }
 }

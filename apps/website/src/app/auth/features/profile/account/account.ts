@@ -6,17 +6,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { AuthStore } from '@website/app/auth/data-access';
-import { ProfileStore } from '../../data-access';
 
 @Component({
   selector: 'account-settings',
-  providers: [ProfileStore],
   imports: [MatButton, MatDivider, MatIcon, MatFormFieldModule, MatInputModule, FormField],
   templateUrl: './account.html'
 })
-export default class AccountSettings {
-  private authStore = inject(AuthStore);
-  protected profileStore = inject(ProfileStore);
+export class ProfilAccount {
+  protected readonly authStore = inject(AuthStore);
 
   protected accountSettingsModel = signal(this.getUserFormValue());
   protected accountSettingsForm = form(this.accountSettingsModel, (schema) => {
@@ -26,15 +23,15 @@ export default class AccountSettings {
   });
 
   constructor() {
-    this.profileStore.clearMessages();
+    this.authStore.clearMessages();
   }
 
   protected save(event: Event): void {
     event.preventDefault();
-    this.profileStore.clearMessages();
+    this.authStore.clearMessages();
 
     submit(this.accountSettingsForm, async () => {
-      this.profileStore.updateProfile(this.accountSettingsModel());
+      this.authStore.updateProfile(this.accountSettingsModel());
     });
   }
 

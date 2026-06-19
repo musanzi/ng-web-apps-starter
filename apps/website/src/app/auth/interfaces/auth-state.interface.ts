@@ -5,4 +5,5 @@ export interface IAuthState {
   isVerifying: boolean;
   isLoading: boolean;
   error: string | null;
+  success: string | null;
 }

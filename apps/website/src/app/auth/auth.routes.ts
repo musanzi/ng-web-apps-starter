@@ -4,7 +4,7 @@ export const authRoutes: Routes = [
   {
     path: '',
     title: 'Auth',
-    loadComponent: () => import('./layout/layout'),
+    loadComponent: () => import('./layout/layout').then((c) => c.AuthLayout),
     children: [
       {
         path: '',
@@ -36,6 +36,28 @@ export const authRoutes: Routes = [
         path: 'sign-up',
         title: 'Sign up',
         loadComponent: () => import('./features/sign-up/sign-up').then((c) => c.AuthSignUp)
+      },
+      {
+        path: 'profile',
+        title: 'Profile',
+        loadComponent: () => import('./layout/profile-layout/layout').then((c) => c.ProfileLayout),
+        children: [
+          {
+            path: '',
+            pathMatch: 'full',
+            redirectTo: 'account'
+          },
+          {
+            path: 'account',
+            title: 'Account',
+            loadComponent: () => import('./features/profile/account/account').then((c) => c.ProfilAccount)
+          },
+          {
+            path: 'security',
+            title: 'Security',
+            loadComponent: () => import('./features/profile/security/security').then((c) => c.PorfilSecurity)
+          }
+        ]
       }
     ]
   }

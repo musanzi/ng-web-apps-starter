@@ -6,7 +6,9 @@ import {
   IAuthProfile,
   IResetPasswordPayload,
   ISignInPayload,
-  ISignUpPayload
+  ISignUpPayload,
+  IUpdatePasswordPayload,
+  IUpdateProfilePayload
 } from '../interfaces';
 
 @Service()
@@ -32,6 +34,14 @@ export class AuthService {
 
   resetPassword(dto: IResetPasswordPayload) {
     return this.http.post<void>(this.apiUrl + '/auth/password/reset', dto);
+  }
+
+  updateProfile(dto: IUpdateProfilePayload) {
+    return this.http.patch<IAuthProfile>(this.apiUrl + '/auth/me', dto);
+  }
+
+  updatePassword(dto: IUpdatePasswordPayload) {
+    return this.http.patch<void>(this.apiUrl + '/auth/password', dto);
   }
 
   getGoogleSignInUrl(): string {

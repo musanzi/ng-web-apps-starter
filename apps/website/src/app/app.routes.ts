@@ -6,10 +6,6 @@ export const routes: Route[] = [
     loadChildren: () => import('./auth/auth.routes').then((r) => r.authRoutes)
   },
   {
-    path: 'profile',
-    loadChildren: () => import('./profile/profile.routes').then((r) => r.profileRoutes)
-  },
-  {
     path: '',
     loadChildren: () => import('./landing/landing.routes').then((r) => r.landingRoutes)
   }

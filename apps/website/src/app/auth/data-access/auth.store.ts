@@ -10,7 +10,9 @@ import {
   IAuthState,
   IResetPasswordPayload,
   ISignInPayload,
-  ISignUpPayload
+  ISignUpPayload,
+  IUpdatePasswordPayload,
+  IUpdateProfilePayload
 } from '../interfaces';
 import { AuthService } from './auth.service';
 
@@ -18,7 +20,8 @@ const initialState: IAuthState = {
   user: null,
   isVerifying: true,
   isLoading: false,
-  error: null
+  error: null,
+  success: null
 };
 
 export const AuthStore = signalStore(
@@ -28,6 +31,42 @@ export const AuthStore = signalStore(
     isAuthenticated: computed(() => user() !== null)
   })),
   withMethods((store, _authService = inject(AuthService), router = inject(Router)) => ({
+    updateProfile: rxMethod<IUpdateProfilePayload>(
+      pipe(
+        tap(() => patchState(store, { isLoading: true, error: null, success: null })),
+        exhaustMap((payload) =>
+          _authService.updateProfile(payload).pipe(
+            tap((user) => {
+              patchState(store, { user, success: 'Informations du compte mises à jour.' });
+            }),
+            catchError((error: Error) => {
+              patchState(store, {
+                error: getApiErrorMessage(error, 'Impossible de mettre à jour les informations du compte')
+              });
+              return of(null);
+            }),
+            finalize(() => patchState(store, { isLoading: false }))
+          )
+        )
+      )
+    ),
+    updatePassword: rxMethod<IUpdatePasswordPayload>(
+      pipe(
+        tap(() => patchState(store, { isLoading: true, error: null, success: null })),
+        exhaustMap((payload) =>
+          _authService.updatePassword(payload).pipe(
+            tap(() => patchState(store, { success: 'Mot de passe mis à jour.' })),
+            catchError((error: Error) => {
+              patchState(store, {
+                error: getApiErrorMessage(error, 'Impossible de mettre à jour le mot de passe')
+              });
+              return of(null);
+            }),
+            finalize(() => patchState(store, { isLoading: false }))
+          )
+        )
+      )
+    ),
     signUp: rxMethod<ISignUpPayload>(
       pipe(
         tap(() => patchState(store, { isLoading: true, error: null })),
@@ -134,6 +173,9 @@ export const AuthStore = signalStore(
         )
       )
     ),
+    clearMessages(): void {
+      patchState(store, { error: null, success: null });
+    },
     setUser(user: IAuthProfile | null): void {
       patchState(store, { user });
     }
