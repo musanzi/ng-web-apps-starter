@@ -6,15 +6,12 @@
   "license": "https://themeforest.net/licenses/standard",
   "author": "Wilfried M <musanziw.m@gmail.com>",
   "scripts": {
-    "ng": "ng",
+    "lint": "nx run-many -t lint --fix -p website admin",
     "build": "nx run-many -t build -p website admin",
+    "dev:admin": "nx serve admin --port=4201",
+    "dev:website": "nx serve website --port=4200",
     "build:admin": "nx build admin",
     "build:website": "nx build website",
-    "dev:admin": "nx serve admin --port=4000",
-    "dev:website": "nx serve website --port=4200",
-    "lint": "nx run-many -t lint -p website admin",
-    "lint:admin": "nx lint admin",
-    "lint:website": "nx lint website",
     "ssr:admin": "node dist/admin/server/server.mjs",
     "ssr:website": "node dist/website/server/server.mjs"
   },
