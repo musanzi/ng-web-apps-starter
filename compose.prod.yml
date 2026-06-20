@@ -1,0 +1,18 @@
+services:
+  website:
+    build:
+      context: .
+      target: production
+    restart: unless-stopped
+    command: pnpm ssr:website --host=0.0.0
+    ports:
+      - '3000:3000'
+
+  admin:
+    build:
+      context: .
+      target: production
+    restart: unless-stopped
+    command: pnpm ssr:admin --host=0.0.0
+    ports:
+      - '3000:3000'
