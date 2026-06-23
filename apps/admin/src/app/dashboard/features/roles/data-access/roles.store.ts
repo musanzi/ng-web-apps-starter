@@ -62,7 +62,7 @@ export const RolesStore = signalStore(
         )
       )
     ),
-    createRole: rxMethod<ISaveRolePayload>(
+    saveRole: rxMethod<ISaveRolePayload>(
       pipe(
         tap(() => patchState(store, { error: null, success: null })),
         exhaustMap(({ payload, query, roleId }) => {

@@ -11,6 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { RolesStore } from '@admin/app/dashboard/features/roles/data-access';
 import { ConfirmDialog } from '@admin/app/dashboard/ui/confirm-dialog/confirm-dialog';
+import { getProfileAvatarUrl } from '@admin/app/dashboard/utils';
 import { IRole, IUser } from '@libs/utils';
 import { UsersStore } from '../../data-access';
 import { IUserPayload, IUserQuery } from '../../interfaces';
@@ -140,6 +141,22 @@ export class Users {
 
   protected trackBy(_: number, user: IUser): string {
     return user.id;
+  }
+
+  protected userAvatarUrl(user: IUser): string | null {
+    return getProfileAvatarUrl(user.avatar);
+  }
+
+  protected userInitials(user: IUser): string {
+    const source = user.name || user.email;
+    const initials = source
+      .trim()
+      .split(/\s+/)
+      .slice(0, 2)
+      .map((part) => part[0])
+      .join('');
+
+    return initials.toUpperCase() || '?';
   }
 
   private openUserDialog(user?: IUser): void {

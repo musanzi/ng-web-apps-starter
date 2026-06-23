@@ -1,8 +1,36 @@
-import { Component } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
+import { MatCard, MatCardContent, MatCardHeader } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { DecimalPipe } from '@angular/common';
+import { IStat } from '../../interfaces';
+import { StatsStore } from '../../data-access';
 
 @Component({
   selector: 'admin-stats',
-  imports: [],
+  providers: [StatsStore],
+  imports: [DecimalPipe, MatCard, MatCardContent, MatCardHeader, MatIconModule],
   templateUrl: './stats.html'
 })
-export class Stats {}
+export class Stats {
+  private readonly snackBar = inject(MatSnackBar);
+
+  protected readonly statsStore = inject(StatsStore);
+
+  constructor() {
+    this.statsStore.loadStats();
+
+    effect(() => {
+      const error = this.statsStore.error();
+
+      if (error) {
+        this.snackBar.open(error, 'Fermer', { duration: 5000 });
+        queueMicrotask(() => this.statsStore.clearMessages());
+      }
+    });
+  }
+
+  protected trackBy(_: number, stat: IStat): string {
+    return stat.label;
+  }
+}

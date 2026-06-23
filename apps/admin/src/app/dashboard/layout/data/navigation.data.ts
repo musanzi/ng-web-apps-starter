@@ -7,6 +7,12 @@ export const NAVIGATION: INavigationItem[] = [
     description: 'Gestion des ressources',
     children: [
       {
+        id: 'dashboard',
+        label: 'Dashboard',
+        route: '/',
+        icon: 'layout-dashboard'
+      },
+      {
         id: 'roles',
         label: 'Rôles',
         route: '/roles',
