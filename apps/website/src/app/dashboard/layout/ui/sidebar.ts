@@ -25,7 +25,7 @@ import { NAVIGATION } from '../data/navigation.data';
 })
 export class DashboardSidebar {
   authStore = inject(AuthStore);
-  protected readonly avatarUrl = computed(() => getProfileAvatarUrl(this.authStore.user()?.avatar));
+  protected readonly avatarUrl = computed(() => getProfileAvatarUrl(this.authStore.user()?.avatar ?? null));
 
   navItems = NAVIGATION;
 }

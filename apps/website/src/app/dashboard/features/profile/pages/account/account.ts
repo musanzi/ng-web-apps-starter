@@ -19,7 +19,7 @@ const ALLOWED_AVATAR_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gi
 export class ProfileAccount {
   protected readonly authStore = inject(AuthStore);
 
-  protected readonly avatarUrl = computed(() => getProfileAvatarUrl(this.authStore.user()?.avatar));
+  protected readonly avatarUrl = computed(() => getProfileAvatarUrl(this.authStore.user()?.avatar ?? null));
   protected accountSettingsModel = signal(this.getUserFormValue());
   protected accountSettingsForm = form(this.accountSettingsModel, (schema) => {
     required(schema.name, { message: 'Le nom est obligatoire' });

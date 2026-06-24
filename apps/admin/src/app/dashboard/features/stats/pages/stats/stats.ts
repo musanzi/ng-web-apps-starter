@@ -14,7 +14,6 @@ import { StatsStore } from '../../data-access';
 })
 export class Stats {
   private readonly snackBar = inject(MatSnackBar);
-
   protected readonly statsStore = inject(StatsStore);
 
   constructor() {
