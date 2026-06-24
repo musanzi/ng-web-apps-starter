@@ -57,10 +57,9 @@ export class User {
   user = input.required<IUser | null>();
   avatarUrl = input.required<string | null>();
   signOut = output();
-  // Dependencies
+
   private theming = inject(Theming);
 
-  // State
   protected scheme = computed(() => this.theming.scheme());
   protected schemes: { label: string; value: Scheme }[] = [
     { label: 'Clair', value: 'light' },
